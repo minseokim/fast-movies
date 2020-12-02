@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Text, Anchor, Button, Image } from 'grommet';
+import { Box, Text, Button, Image } from 'grommet';
 import { Movie } from '../../typeDefs/MovieData';
 
 interface MovieWidgetProps {
@@ -11,6 +11,7 @@ export const MovieWidget = ({
   movieSearchResult,
   onMovieAdd,
 }: MovieWidgetProps) => {
+  console.log('movieSearchResult :', movieSearchResult);
   return (
     <>
       {movieSearchResult?.map((movie) => {
