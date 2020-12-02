@@ -1,25 +1,47 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Grommet, Box } from 'grommet';
+
+const fastColors = {
+  black: '#010206',
+  white: '#FFFFFF',
+  green: '#2A8F4C',
+};
+
+const AppBar = (props) => (
+  <Box
+    tag='header'
+    direction='row'
+    align='center'
+    justify='between'
+    background='black'
+    pad={{ left: 'medium', right: 'small', vertical: 'small' }}
+    elevation='medium'
+    style={{ zIndex: '1' }}
+    {...props}
+  />
+);
+
+const theme = {
+  global: {
+    colors: {
+      black: '#010206',
+      white: '#FFFFFF',
+      green: '#2A8F4C',
+    },
+    font: {
+      family: 'Inter,sans-serif',
+      size: '18px',
+      height: '20px',
+    },
+  },
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Grommet theme={theme}>
+      <AppBar>Fast Films</AppBar>
+    </Grommet>
   );
 }
 
