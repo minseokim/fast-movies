@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { Grommet } from 'grommet';
-import { FastMovies } from './components';
+import { FastMovies } from './FastMovies';
 
 const fastColors = {
   black: '#010206',
