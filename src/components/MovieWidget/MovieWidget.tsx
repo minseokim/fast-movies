@@ -2,11 +2,15 @@ import React from 'react';
 import { Box, Text, Anchor, Button, Image } from 'grommet';
 import { Movie } from '../../typeDefs/MovieData';
 
+interface MovieWidgetProps {
+  movieSearchResult: Movie[];
+  onMovieAdd: (movie: Movie) => void;
+}
+
 export const MovieWidget = ({
   movieSearchResult,
-}: {
-  movieSearchResult: Movie[];
-}) => {
+  onMovieAdd,
+}: MovieWidgetProps) => {
   return (
     <>
       {movieSearchResult?.map((movie) => {
@@ -18,6 +22,7 @@ export const MovieWidget = ({
             pad='xlarge'
             background='dark-2'
             gap='medium'
+            key={movie.imdbID}
           >
             <Box
               pad='large'
@@ -31,10 +36,12 @@ export const MovieWidget = ({
               </Box>
 
               <Text>{movie.Title}</Text>
-              <Text>{movie.Director}</Text>
-              <Text>{movie.Genre}</Text>
-              <Text>{movie.Rated}</Text>
-              <Button label='Add To Watch List' onClick={() => {}} />
+              <Text>{movie.Year}</Text>
+              <Text>{movie.Type}</Text>
+              <Button
+                label='Add To Watch List'
+                onClick={() => onMovieAdd(movie)}
+              />
             </Box>
           </Box>
         );
