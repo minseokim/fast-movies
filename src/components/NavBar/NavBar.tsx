@@ -1,15 +1,6 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import {
-  Box,
-  ResponsiveContext,
-  Menu,
-  Nav,
-  Anchor,
-  Header,
-  Text,
-  Heading,
-} from 'grommet';
+import { Box, ResponsiveContext, Menu, Nav, Header, Heading } from 'grommet';
 import { Cart, Ticket } from 'grommet-icons';
 
 export const NavBar = (props) => {

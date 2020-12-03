@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import { Link, Switch, Route, BrowserRouter } from 'react-router-dom';
-import { Box, Button, TextInput } from 'grommet';
-import { NavBar, MovieWidget, SelectedMovieList } from './components';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import {
+  NavBar,
+  MovieWidget,
+  SelectedMovieList,
+  SearchBar,
+} from './components';
 import { Movie, MovieSearchResult } from './typeDefs/MovieData';
 import debounce from 'lodash.debounce';
 
@@ -68,13 +72,7 @@ export const FastMovies = () => {
     <>
       <BrowserRouter>
         <NavBar />
-        <Box>
-          <TextInput
-            placeholder='Search for a movie here...'
-            onChange={handleMovieSearch}
-          />
-        </Box>
-
+        <SearchBar onMovieSearch={handleMovieSearch} />
         <Switch>
           <Route exact path='/'>
             <MovieWidget

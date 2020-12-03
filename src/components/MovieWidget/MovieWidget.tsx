@@ -17,7 +17,7 @@ export const MovieWidget = ({
 }: MovieWidgetProps) => {
   console.log('movieSearchResult :', movieSearchResult);
   return (
-    <Box>
+    <Box pad='large'>
       {errorMessage ? <h1>{errorMessage}</h1> : null}
       {loading ? (
         <h1>Searching for matching films...</h1>
@@ -26,33 +26,23 @@ export const MovieWidget = ({
           {movieSearchResult?.map((movie) => {
             return (
               <Box
-                direction='row-responsive'
-                justify='center'
-                align='center'
-                pad='xlarge'
-                background='dark-2'
-                gap='medium'
+                pad='large'
+                round
+                //   align='center'
+                background={{ color: 'light-2', opacity: 'strong' }}
+                gap='small'
                 key={movie.imdbID}
               >
-                <Box
-                  pad='large'
-                  align='center'
-                  background={{ color: 'light-2', opacity: 'strong' }}
-                  round
-                  gap='small'
-                >
-                  <Box>
-                    <Image src={movie.Poster} fit='contain' />
-                  </Box>
-
-                  <Text>{movie.Title}</Text>
-                  <Text>{movie.Year}</Text>
-                  <Text>{movie.Type}</Text>
-                  <Button
-                    label='Add To Watch List'
-                    onClick={() => onMovieAdd(movie)}
-                  />
+                <Box>
+                  <Image src={movie.Poster} fit='contain' />
                 </Box>
+
+                <Text>{movie.Title}</Text>
+                <Text>{movie.Year}</Text>
+                <Button
+                  label='Add To Watch List'
+                  onClick={() => onMovieAdd(movie)}
+                />
               </Box>
             );
           })}
@@ -61,3 +51,26 @@ export const MovieWidget = ({
     </Box>
   );
 };
+
+// <Box pad="large">
+// <Grid gap="medium" rows="small" columns={{ count: 'fit', size: 'small' }}>
+//   {data.map(value => (
+//     <Card background={value.color} key={value.message}>
+//       <CardBody pad="small">
+//         <Identifier
+//           pad="small"
+//           title={value.title}
+//           subTitle={value.subTitle}
+//           size="small"
+//           align="start"
+//         >
+//           {value.icon}
+//         </Identifier>
+//       </CardBody>
+//       <CardFooter pad={{ horizontal: 'medium', vertical: 'small' }}>
+//         <Text size="xsmall">{value.message}</Text>
+//       </CardFooter>
+//     </Card>
+//   ))}
+// </Grid>
+// </Box>
