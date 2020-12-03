@@ -6,26 +6,10 @@ import {
   SelectedMovieList,
   SearchBar,
 } from './components';
-import { Movie, MovieSearchResult } from './typeDefs/MovieData';
+import { Movie } from './typeDefs';
 import debounce from 'lodash.debounce';
+import { fetchMovies } from './lib';
 
-const API_KEY = `6f2ce34a`;
-
-const fetchMovies = async (searchQuery: string) => {
-  const movieResult = await fetch(
-    `http://www.omdbapi.com/?s=${searchQuery}&apikey=${API_KEY}`
-  );
-  const movieResultJson = await movieResult.json();
-  const {
-    Search,
-    Error: _Error,
-    Response,
-  } = movieResultJson as MovieSearchResult;
-  if (Response === 'False' && _Error) {
-    throw new Error(_Error);
-  }
-  return Search;
-};
 export const FastMovies = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -55,7 +39,6 @@ export const FastMovies = () => {
         setErrorMessage(err.message);
       });
   }, 1500);
-  // TODO : Display sample list of movies on initial load(Maybe a random list, 'I'm feeling lucky' style)
 
   const handleMovieAdd = (movie: Movie) => {
     if (selectedMovieList.includes(movie)) {
@@ -72,24 +55,22 @@ export const FastMovies = () => {
   };
 
   return (
-    <>
-      <BrowserRouter>
-        <NavBar selectedMovieCount={selectedMovieList.length} />
-        <SearchBar onMovieSearch={handleMovieSearch} />
-        <Switch>
-          <Route exact path='/'>
-            <MovieWidget
-              errorMessage={errorMessage}
-              loading={loading}
-              movieSearchResult={movieSearchResult}
-              onMovieAdd={handleMovieAdd}
-            />
-          </Route>
-          <Route exact path='/checkout'>
-            <SelectedMovieList selectedMovieList={selectedMovieList} />
-          </Route>
-        </Switch>
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <NavBar selectedMovieCount={selectedMovieList.length} />
+      <SearchBar onMovieSearch={handleMovieSearch} />
+      <Switch>
+        <Route exact path='/'>
+          <MovieWidget
+            errorMessage={errorMessage}
+            loading={loading}
+            movieSearchResult={movieSearchResult}
+            onMovieAdd={handleMovieAdd}
+          />
+        </Route>
+        <Route exact path='/checkout'>
+          <SelectedMovieList selectedMovieList={selectedMovieList} />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 };
