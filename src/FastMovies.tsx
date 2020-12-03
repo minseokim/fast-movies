@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Box, Button, Heading, TextInput } from 'grommet';
-import { Header, MovieWidget, SelectedMovieList } from './components';
+import { Link, Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Box, Button, TextInput } from 'grommet';
+import { NavBar, MovieWidget, SelectedMovieList } from './components';
 import { Movie, MovieSearchResult } from './typeDefs/MovieData';
 import debounce from 'lodash.debounce';
 
@@ -8,7 +9,7 @@ const API_KEY = `6f2ce34a`;
 
 const fetchMovies = async (searchQuery: string) => {
   const movieResult = await fetch(
-    `http://www.omdbapi.com/?s=${searchQuery}&page=1&apikey=6f2ce34a`
+    `http://www.omdbapi.com/?s=${searchQuery}&page=1&apikey=${API_KEY}`
   );
   const movieResultJson = await movieResult.json();
   const {
@@ -59,33 +60,35 @@ export const FastMovies = () => {
     setSelectedMovieList([...selectedMovieList, movie]);
   };
 
-  const handleMovieSearch = async ({
-    target,
-  }: {
-    target: HTMLInputElement;
-  }) => {
+  const handleMovieSearch = ({ target }: { target: HTMLInputElement }) => {
     debouncedMovieSearch(target.value);
   };
 
   return (
     <>
-      <Header>Fast Films</Header>
-      <Box>
-        <TextInput
-          placeholder='Search for a movie here...'
-          onChange={handleMovieSearch}
-        />
-      </Box>
-      <Box>
-        <Button>Checkout</Button>
-      </Box>
-      <MovieWidget
-        errorMessage={errorMessage}
-        loading={loading}
-        movieSearchResult={movieSearchResult}
-        onMovieAdd={handleMovieAdd}
-      />
-      <SelectedMovieList selectedMovieList={selectedMovieList} />
+      <BrowserRouter>
+        <NavBar />
+        <Box>
+          <TextInput
+            placeholder='Search for a movie here...'
+            onChange={handleMovieSearch}
+          />
+        </Box>
+
+        <Switch>
+          <Route exact path='/'>
+            <MovieWidget
+              errorMessage={errorMessage}
+              loading={loading}
+              movieSearchResult={movieSearchResult}
+              onMovieAdd={handleMovieAdd}
+            />
+          </Route>
+          <Route exact path='/checkout'>
+            <SelectedMovieList selectedMovieList={selectedMovieList} />
+          </Route>
+        </Switch>
+      </BrowserRouter>
     </>
   );
 };
