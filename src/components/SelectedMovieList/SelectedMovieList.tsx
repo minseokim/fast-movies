@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Heading, Text } from 'grommet';
+import { Box, Heading, Text, CardBody, Card, Image, List } from 'grommet';
 import { Movie } from '../../typeDefs/MovieData';
-
+import './SelectedMovieList.css';
 interface SelectedMovieListProps {
   selectedMovieList: Movie[];
 }
@@ -9,17 +9,20 @@ export const SelectedMovieList = ({
   selectedMovieList,
 }: SelectedMovieListProps) => {
   return (
-    <Box>
-      <Heading level={3}>Selected Movies</Heading>
-
-      {selectedMovieList?.map((movie) => {
-        return (
-          <Box key={movie.Title}>
-            <Text>{movie.Title}</Text>
-            <Text>{movie.Year}</Text>
-          </Box>
-        );
-      })}
+    <Box className='selected-movie-list'>
+      <Heading>Selected Movies</Heading>
+      <List data={selectedMovieList} pad='medium'>
+        {(movie: Movie) => {
+          return (
+            <Card key={movie.Title}>
+              <CardBody>
+                <Text>{movie.Title}</Text>
+                <Text>{movie.Year}</Text>
+              </CardBody>
+            </Card>
+          );
+        }}
+      </List>
     </Box>
   );
 };

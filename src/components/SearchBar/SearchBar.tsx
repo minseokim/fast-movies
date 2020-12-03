@@ -1,23 +1,20 @@
 import React from 'react';
-import { Box, TextInput, Heading } from 'grommet';
+import { Box, TextInput } from 'grommet';
 import { Search } from 'grommet-icons';
+import './SearchBar.css';
 interface SearchBarProps {
   onMovieSearch: ({ target }: { target: HTMLInputElement }) => void;
 }
 export const SearchBar = ({ onMovieSearch }: SearchBarProps) => {
   return (
-    <Box>
-      <Box pad='medium'>
-        <Heading level='3' size='medium'>
-          Look for your favorite films
-        </Heading>
+    <Box className='search-bar' background='light-1'>
+      <Box>
+        <TextInput
+          icon={<Search />}
+          placeholder='Type movie name here...'
+          onChange={onMovieSearch}
+        />
       </Box>
-
-      <TextInput
-        icon={<Search />}
-        placeholder='Type movie name here...'
-        onChange={onMovieSearch}
-      />
     </Box>
   );
 };
