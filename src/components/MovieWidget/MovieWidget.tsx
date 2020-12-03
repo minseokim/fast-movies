@@ -6,7 +6,7 @@ import './MovieWidget.css';
 
 interface MovieWidgetProps {
   movieSearchResult: Movie[];
-  errorMessage: string;
+  errorMessage: string | null;
   loading: boolean;
   onMovieAdd: (movie: Movie) => void;
 }

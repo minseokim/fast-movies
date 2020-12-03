@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Heading, Text, CardBody, Card, Image, List } from 'grommet';
+import { Box, Heading, Text, CardBody, Card, List } from 'grommet';
 import { Movie } from '../../typeDefs/MovieData';
 import './SelectedMovieList.css';
 interface SelectedMovieListProps {

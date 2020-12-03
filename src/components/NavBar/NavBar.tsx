@@ -13,10 +13,7 @@ export const NavBar = ({ selectedMovieCount }: NavBarProps) => {
   return (
     <Header background='dark-1' pad='medium' className='nav-bar'>
       <Box direction='row' align='center' gap='small'>
-        <Link
-          to='/fast-movies'
-          style={{ textDecoration: 'none', color: 'inherit' }}
-        >
+        <Link to='/' style={{ textDecoration: 'none', color: 'inherit' }}>
           <Heading size='small'>Fast Films</Heading>
         </Link>
       </Box>
