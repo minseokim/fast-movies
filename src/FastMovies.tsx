@@ -13,7 +13,7 @@ const API_KEY = `6f2ce34a`;
 
 const fetchMovies = async (searchQuery: string) => {
   const movieResult = await fetch(
-    `http://www.omdbapi.com/?s=${searchQuery}&page=1&apikey=${API_KEY}`
+    `http://www.omdbapi.com/?s=${searchQuery}&apikey=${API_KEY}`
   );
   const movieResultJson = await movieResult.json();
   const {
@@ -32,9 +32,11 @@ export const FastMovies = () => {
   const [selectedMovieList, setSelectedMovieList] = useState<Movie[]>([]);
   const [movieSearchResult, setMovieSearchResult] = useState<Movie[]>([]);
 
+  const clearErrorMessage = () => setErrorMessage(null);
+
   const debouncedMovieSearch = debounce((searchQuery: string) => {
     setLoading(true);
-    setErrorMessage(null);
+    clearErrorMessage();
 
     if (searchQuery === '') {
       setLoading(false);
@@ -62,6 +64,7 @@ export const FastMovies = () => {
     }
 
     setSelectedMovieList([...selectedMovieList, movie]);
+    clearErrorMessage();
   };
 
   const handleMovieSearch = ({ target }: { target: HTMLInputElement }) => {
@@ -71,7 +74,7 @@ export const FastMovies = () => {
   return (
     <>
       <BrowserRouter>
-        <NavBar />
+        <NavBar selectedMovieCount={selectedMovieList.length} />
         <SearchBar onMovieSearch={handleMovieSearch} />
         <Switch>
           <Route exact path='/'>

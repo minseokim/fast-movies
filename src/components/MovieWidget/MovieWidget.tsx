@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Text, Button, Image, Card, CardBody } from 'grommet';
+import { Add } from 'grommet-icons';
 import { Movie } from '../../typeDefs/MovieData';
 import './MovieWidget.css';
 
@@ -51,7 +52,9 @@ export const MovieWidget = ({
             <Text>{movie.Title}</Text>
             <Text>{movie.Year}</Text>
             <Button
+              icon={<Add />}
               label='Add To Watch List'
+              primary
               onClick={() => onMovieAdd(movie)}
             />
           </Box>
