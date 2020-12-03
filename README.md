@@ -4,7 +4,7 @@ Search for movies using the OMDB API, add them to your list, and confirm your se
 
 ## How to Run Application Locally
 
-Clone repo, run `npm run start` to start locally
+Clone repo, run `npm run start` to start locally and navigate to `http://localhost:3000`
 
 ## Live Version
 
