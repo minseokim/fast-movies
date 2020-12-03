@@ -2,7 +2,7 @@ import { MovieSearchResult } from '../../typeDefs/MovieData';
 
 export const fetchMovies = async (searchQuery: string) => {
   const OMDBApiUrl = `https://www.omdbapi.com/?s=${searchQuery}&apikey=${process.env.REACT_APP_API_KEY}`;
-  console.log('OMDBApiUrl :', OMDBApiUrl);
+
   const movieResult = await fetch(OMDBApiUrl);
   const movieResultJson = await movieResult.json();
   const {
