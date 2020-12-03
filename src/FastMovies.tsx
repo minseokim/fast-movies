@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Heading, TextInput } from 'grommet';
 import { Header, MovieWidget, SelectedMovieList } from './components';
 import { Movie, MovieSearchResult } from './typeDefs/MovieData';
@@ -23,13 +23,20 @@ const fetchMovies = async (searchQuery: string) => {
 };
 export const FastMovies = () => {
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [selectedMovieList, setSelectedMovieList] = useState([]);
-  const [movieSearchResult, setMovieSearchResult] = useState([]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [selectedMovieList, setSelectedMovieList] = useState<Movie[]>([]);
+  const [movieSearchResult, setMovieSearchResult] = useState<Movie[]>([]);
 
   const debouncedMovieSearch = debounce((searchQuery: string) => {
     setLoading(true);
     setErrorMessage(null);
+
+    if (searchQuery === '') {
+      setLoading(false);
+      setMovieSearchResult([]);
+      return;
+    }
+
     fetchMovies(searchQuery)
       .then((movieList) => {
         setMovieSearchResult(movieList);
@@ -37,13 +44,18 @@ export const FastMovies = () => {
       })
       .catch((err: Error) => {
         setLoading(false);
+        setMovieSearchResult([]);
         setErrorMessage(err.message);
       });
   }, 1500);
   // TODO : Display sample list of movies on initial load(Maybe a random list, 'I'm feeling lucky' style)
 
   const handleMovieAdd = (movie: Movie) => {
-    console.log('movie Added :', movie);
+    if (selectedMovieList.includes(movie)) {
+      setErrorMessage(`Movie ${movie.Title} is already added!`);
+      return;
+    }
+
     setSelectedMovieList([...selectedMovieList, movie]);
   };
 
@@ -67,17 +79,12 @@ export const FastMovies = () => {
       <Box>
         <Button>Checkout</Button>
       </Box>
-      <Box>
-        {errorMessage ? <h1>{errorMessage}</h1> : null}
-        {loading ? (
-          <h1>Searching for matching films...</h1>
-        ) : (
-          <MovieWidget
-            movieSearchResult={movieSearchResult}
-            onMovieAdd={handleMovieAdd}
-          />
-        )}
-      </Box>
+      <MovieWidget
+        errorMessage={errorMessage}
+        loading={loading}
+        movieSearchResult={movieSearchResult}
+        onMovieAdd={handleMovieAdd}
+      />
       <SelectedMovieList selectedMovieList={selectedMovieList} />
     </>
   );
