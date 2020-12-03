@@ -7,24 +7,38 @@ import debounce from 'lodash.debounce';
 const API_KEY = `6f2ce34a`;
 
 const fetchMovies = async (searchQuery: string) => {
-  try {
-    const movieResult = await fetch(
-      `http://www.omdbapi.com/?s=${searchQuery}&page=1&apikey=6f2ce34a`
-    );
-    const movieResultJson = await movieResult.json();
-    const { Search } = movieResultJson as MovieSearchResult;
-    return Search;
-  } catch {
-    throw new Error('Movie failed to fetch');
+  const movieResult = await fetch(
+    `http://www.omdbapi.com/?s=${searchQuery}&page=1&apikey=6f2ce34a`
+  );
+  const movieResultJson = await movieResult.json();
+  const {
+    Search,
+    Error: _Error,
+    Response,
+  } = movieResultJson as MovieSearchResult;
+  if (Response === 'False' && _Error) {
+    throw new Error(_Error);
   }
+  return Search;
 };
 export const FastMovies = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
   const [selectedMovieList, setSelectedMovieList] = useState([]);
   const [movieSearchResult, setMovieSearchResult] = useState([]);
 
-  const debouncedMovieSearch = debounce(async (searchQuery: string) => {
-    setMovieSearchResult(await fetchMovies(searchQuery));
+  const debouncedMovieSearch = debounce((searchQuery: string) => {
+    setLoading(true);
+    setErrorMessage(null);
+    fetchMovies(searchQuery)
+      .then((movieList) => {
+        setMovieSearchResult(movieList);
+        setLoading(false);
+      })
+      .catch((err: Error) => {
+        setLoading(false);
+        setErrorMessage(err.message);
+      });
   }, 1500);
   // TODO : Display sample list of movies on initial load(Maybe a random list, 'I'm feeling lucky' style)
 
@@ -54,10 +68,15 @@ export const FastMovies = () => {
         <Button>Checkout</Button>
       </Box>
       <Box>
-        <MovieWidget
-          movieSearchResult={movieSearchResult}
-          onMovieAdd={handleMovieAdd}
-        />
+        {errorMessage ? <h1>{errorMessage}</h1> : null}
+        {loading ? (
+          <h1>Searching for matching films...</h1>
+        ) : (
+          <MovieWidget
+            movieSearchResult={movieSearchResult}
+            onMovieAdd={handleMovieAdd}
+          />
+        )}
       </Box>
       <SelectedMovieList selectedMovieList={selectedMovieList} />
     </>

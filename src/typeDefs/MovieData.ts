@@ -9,5 +9,6 @@ export interface Movie {
 export interface MovieSearchResult {
   Search: Movie[];
   totalResults: number;
-  Response: String;
+  Response: string;
+  Error: string;
 }
